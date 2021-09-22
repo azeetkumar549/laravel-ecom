@@ -15,13 +15,38 @@
         <!--Grid column-->
         <div class="col-md-8 mb-4">
 
+
           <!--Card-->
-          <div class="card">
+          <div class="">
 
             <!--Card content-->
-            <form class="card-body">
+            <form  action="{{route('storeAddress')}}" method="post">
+                @csrf
 
               <!--Grid row-->
+
+              <div class="row mb-3">
+                    @foreach ($address as $add)
+                        <div class="col-6">
+                                <div class="card">
+                                    <div class="card-body">
+                                        <h3>{{$add->name}}</h3>
+                                        <p>{{$add->contact}}, {{$add->area}}, {{$add->street}} <br>{{ $add->city}} ({{ $add->state}}) -  {{$add->pincode}}</p>
+                                    </div>
+                                    <div class="card-footer">
+                                    <div class="form-check">
+                                        <input class="form-check-input" type="radio" name="saveAddress" value="{{$add->id}}" id="flexRadioDefault1">
+                                        <label class="form-check-label" for="flexRadioDefault1">
+                                            Select This Address
+                                        </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                    @endforeach
+                    </div>
+
+
               <div class="row">
 
                 <!--Grid column-->
@@ -29,8 +54,11 @@
 
                   <!--firstName-->
                   <div class="md-form ">
-                    <input type="text" id="firstName" class="form-control">
-                    <label for="firstName" class="">First name</label>
+                    <input type="text" id="firstName" name="name" class="form-control">
+                    <label for="firstName" class="">full Name</label>
+                    @error('name')
+                            <p class="small text-danger">{{$message}}</p>
+                    @enderror
                   </div>
 
                 </div>
@@ -41,8 +69,11 @@
 
                   <!--lastName-->
                   <div class="md-form">
-                    <input type="text" id="lastName" class="form-control">
-                    <label for="lastName" class="">Last name</label>
+                    <input type="text" id="contact" name="contact" class="form-control">
+                    <label for="contact" class="">Contact</label>
+                    @error('contact')
+                            <p class="small text-danger">{{$message}}</p>
+                    @enderror
                   </div>
 
                 </div>
@@ -53,59 +84,46 @@
 
               <!--Username-->
               <div class="md-form input-group pl-0 mb-5">
-                <div class="input-group-prepend">
-                  <span class="input-group-text" id="basic-addon1">@</span>
-                </div>
-                <input type="text" class="form-control py-0" placeholder="Username" aria-describedby="basic-addon1">
+                <input type="text" class="form-control" id="area" name="area">
+                <label for="area" class="">Area</label>
+                @error('area')
+                            <p class="small text-danger">{{$message}}</p>
+                    @enderror
               </div>
 
               <!--email-->
               <div class="md-form mb-5">
-                <input type="text" id="email" class="form-control" placeholder="youremail@example.com">
-                <label for="email" class="">Email (optional)</label>
+                <input type="text" id="street" name="street" class="form-control">
+                <label for="street" class="">street</label>
+                @error('street')
+                            <p class="small text-danger">{{$message}}</p>
+                    @enderror
               </div>
 
               <!--address-->
               <div class="md-form mb-5">
-                <input type="text" id="address" class="form-control" placeholder="1234 Main St">
-                <label for="address" class="">Address</label>
+                <input type="text" id="city" name="city" class="form-control">
+                <label for="city" class="">city</label>
+                @error('city')
+                            <p class="small text-danger">{{$message}}</p>
+                    @enderror
               </div>
-
-              <!--address-2-->
-              <div class="md-form mb-5">
-                <input type="text" id="address-2" class="form-control" placeholder="Apartment or suite">
-                <label for="address-2" class="">Address 2 (optional)</label>
-              </div>
-
               <!--Grid row-->
               <div class="row">
 
-                <!--Grid column-->
-                <div class="col-lg-4 col-md-12 mb-4">
-
-                  <label for="country">Country</label>
-                  <select class="custom-select d-block w-100" id="country" required>
-                    <option value="">Choose...</option>
-                    <option>United States</option>
-                  </select>
-                  <div class="invalid-feedback">
-                    Please select a valid country.
-                  </div>
-
-                </div>
                 <!--Grid column-->
 
                 <!--Grid column-->
                 <div class="col-lg-4 col-md-6 mb-4">
 
                   <label for="state">State</label>
-                  <select class="custom-select d-block w-100" id="state" required>
+                  <select class="custom-select d-block w-100" name="state" id="state">
                     <option value="">Choose...</option>
-                    <option>California</option>
+                    <option>Bihar</option>
                   </select>
-                  <div class="invalid-feedback">
-                    Please provide a valid state.
-                  </div>
+                  @error('state')
+                            <p class="small text-danger">{{$message}}</p>
+                    @enderror
 
                 </div>
                 <!--Grid column-->
@@ -113,11 +131,11 @@
                 <!--Grid column-->
                 <div class="col-lg-4 col-md-6 mb-4">
 
-                  <label for="zip">Zip</label>
-                  <input type="text" class="form-control" id="zip" placeholder="" required>
-                  <div class="invalid-feedback">
-                    Zip code required.
-                  </div>
+                  <label for="pin">Pincode</label>
+                  <input type="text" class="form-control" name="pincode" id="pin" placeholder="">
+                  @error('pincode')
+                            <p class="small text-danger">{{$message}}</p>
+                    @enderror
 
                 </div>
                 <!--Grid column-->
@@ -125,66 +143,18 @@
               </div>
               <!--Grid row-->
 
-              <hr>
-
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="same-address">
-                <label class="custom-control-label" for="same-address">Shipping address is the same as my billing address</label>
-              </div>
-              <div class="custom-control custom-checkbox">
-                <input type="checkbox" class="custom-control-input" id="save-info">
-                <label class="custom-control-label" for="save-info">Save this information for next time</label>
-              </div>
-
-              <hr>
-
               <div class="d-block my-3">
                 <div class="custom-control custom-radio">
-                  <input id="credit" name="paymentMethod" type="radio" class="custom-control-input" checked required>
-                  <label class="custom-control-label" for="credit">Credit card</label>
+                  <input id="credit" name="type" value="home" type="radio" class="custom-control-input" checked>
+                  <label class="custom-control-label" for="credit">Home</label>
                 </div>
                 <div class="custom-control custom-radio">
-                  <input id="debit" name="paymentMethod" type="radio" class="custom-control-input" required>
-                  <label class="custom-control-label" for="debit">Debit card</label>
+                  <input id="debit" name="type" type="radio" value="office" class="custom-control-input">
+                  <label class="custom-control-label" for="debit">Office</label>
                 </div>
-                <div class="custom-control custom-radio">
-                  <input id="paypal" name="paymentMethod" type="radio" class="custom-control-input" required>
-                  <label class="custom-control-label" for="paypal">Paypal</label>
-                </div>
+
               </div>
-              <div class="row">
-                <div class="col-md-6 mb-3">
-                  <label for="cc-name">Name on card</label>
-                  <input type="text" class="form-control" id="cc-name" placeholder="" required>
-                  <small class="text-muted">Full name as displayed on card</small>
-                  <div class="invalid-feedback">
-                    Name on card is required
-                  </div>
-                </div>
-                <div class="col-md-6 mb-3">
-                  <label for="cc-number">Credit card number</label>
-                  <input type="text" class="form-control" id="cc-number" placeholder="" required>
-                  <div class="invalid-feedback">
-                    Credit card number is required
-                  </div>
-                </div>
-              </div>
-              <div class="row">
-                <div class="col-md-3 mb-3">
-                  <label for="cc-expiration">Expiration</label>
-                  <input type="text" class="form-control" id="cc-expiration" placeholder="" required>
-                  <div class="invalid-feedback">
-                    Expiration date required
-                  </div>
-                </div>
-                <div class="col-md-3 mb-3">
-                  <label for="cc-expiration">CVV</label>
-                  <input type="text" class="form-control" id="cc-cvv" placeholder="" required>
-                  <div class="invalid-feedback">
-                    Security code required
-                  </div>
-                </div>
-              </div>
+
               <hr class="mb-4">
               <button class="btn btn-primary btn-lg btn-block" type="submit">Continue to checkout</button>
 
@@ -242,16 +212,6 @@
           </ul>
           <!-- Cart -->
 
-          <!-- Promo code -->
-          <form class="card p-2">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Promo code" aria-label="Recipient's username" aria-describedby="basic-addon2">
-              <div class="input-group-append">
-                <button class="btn btn-secondary btn-md waves-effect m-0" type="button">Redeem</button>
-              </div>
-            </div>
-          </form>
-          <!-- Promo code -->
 
         </div>
         <!--Grid column-->
@@ -262,6 +222,5 @@
     </div>
   </main>
   <!--Main layout-->
-  
+
 @endsection
-  

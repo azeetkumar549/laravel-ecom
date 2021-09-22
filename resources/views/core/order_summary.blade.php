@@ -92,7 +92,10 @@
                     <a href="" class="list-group-item list-group-item-action">Total Tax (18% GST) <span class="float-right">Rs. {{$tax}}</span></a>
                     <a href="" class="list-group-item list-group-item-action bg-success text-white">Discount  <span class="float-right">Rs. {{$total_actual_amount - $total_amount}}</span></a>
                     @if ($order->coupon_id)
-                    <a href="" class="list-group-item list-group-item-action bg-warning text-white">Coupon Discount  <span class="float-right">Rs. {{$order->coupon->amount}}</span></a>
+                    <div class="list-group-item list-group-item-action bg-warning text-white">Coupon Discount  <span class="float-right">Rs. {{$order->coupon->amount}}</span>
+                <br>
+                <span class="text-dark">{{$order->coupon->code}} </span><a href="{{route('removeCoupon')}}" class="font-weight-bold text-danger">X</a>
+                    </div>
 
                     @endif
                     <a href="" class="list-group-item list-group-item-action">Total Payable Amount  <span class="float-right">Rs. {{$total_payable_amount}}</span></a>
@@ -110,6 +113,11 @@
                     </div>
                 </form>
                 @endif
+
+                <div class="row">
+                <a href="" class="col btn-success btn">Go back</a>
+                <a href="{{route('checkout')}}" class="col btn-warning btn">Checkout</a>
+            </div>
             </div>
             <!--Grid column-->
 
